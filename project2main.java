@@ -213,7 +213,7 @@ public class project2main {
         while (!events.isEmpty()) {
     
         	
-            event curr = events.poll();    //not sure abt this, maybe use temp
+            event curr = events.poll();   
          
             Player player = players.get(curr.getId());
             
@@ -458,8 +458,6 @@ public class project2main {
             			
             		}
             	
-            	
-// 
             }
             //event is leave massage
             else if(curr.getEvent_type().equals("leave_m")) {
@@ -602,9 +600,3 @@ public class project2main {
 
  
      }
-
-
-
-
-
-	
