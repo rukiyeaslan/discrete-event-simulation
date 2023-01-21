@@ -60,13 +60,14 @@ class massCompare implements Comparator<Player>{
 			if (Math.abs(p1.getEnter_massage_que()-p2.getEnter_massage_que()) < 0.0000000001){
 				if(p1.getID()< p2.getID()) {
         			return -1;
-        		}
+        			}
         		else if(p1.getID()> p2.getID()) {
-        			return 1;}
-        	}			
+        			return 1;
+				}
+        		}			
 			else if (p1.getEnter_massage_que()<p2.getEnter_massage_que()) {
 				return -1;
-			}
+				}
 			else if(p1.getEnter_massage_que()>p2.getEnter_massage_que()) {
 				return 1;
 			}             
