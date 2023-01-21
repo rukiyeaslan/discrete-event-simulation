@@ -42,8 +42,7 @@ class physCompare implements Comparator<Player>{
         			return -1;
         		}
         		else if(p1.getID()> p2.getID()) {
-        			return 1;}
-        		        
+        			return 1;        
         	}
         	
         	else if (p1.getEnter_phys_que() < p2.getEnter_phys_que()) {
@@ -58,12 +57,10 @@ class physCompare implements Comparator<Player>{
             return 1;
         else if (p1.getTraining_time() > p2.getTraining_time())
             return -1;
-        
-       
-        	return 0;
-        
-        
-}
+   
+       return 0;
+              
+	}
 }
 //comparator for massage queue
 class massCompare implements Comparator<Player>{
@@ -81,21 +78,17 @@ class massCompare implements Comparator<Player>{
         		}
         		else if(p1.getID()> p2.getID()) {
         			return 1;}
-				//return 0;
-        	}
-			
+        	}			
 			else if (p1.getEnter_massage_que()<p2.getEnter_massage_que()) {
 				return -1;
 			}
 			else if(p1.getEnter_massage_que()>p2.getEnter_massage_que()) {
 				return 1;
-			}
-			
-                
-			}
-		return 0;
+			}             
 		}
+		return 0;
 	}
+}
 //comparator for training queue
 class trCompare implements Comparator<Player>{
 	public int compare(Player p1, Player p2) {
@@ -114,7 +107,7 @@ class trCompare implements Comparator<Player>{
 			return 1;
 		}
 		
-		  return 0;
+		return 0;
 		
 	}
 }
@@ -136,7 +129,6 @@ public class project2main {
 		PriorityQueue<Player> physque = new PriorityQueue<Player>(new physCompare());
 		PriorityQueue<Player> massageque = new PriorityQueue<Player>(new massCompare());
 		
-	
 		double current_time=0;  //current time
 
 		int invalid_attempts=0;  //number of invalid attempts
@@ -162,8 +154,7 @@ public class project2main {
 		// number of players
 		int pNum= in.nextInt();
 		in.nextLine();
-		
-		
+				
 	    for (int i=0; i<pNum; i++) {
 	    	String line = in.nextLine();
 	    	String[] list = line.split(" ");
@@ -199,22 +190,14 @@ public class project2main {
         	massagers.add(mas);
         }
           
-        while (!events.isEmpty()) {
-    
-        	
-            event curr = events.poll();   
-         
-            Player player = players.get(curr.getId());
-            
-         
-           
-            
+        while (!events.isEmpty()) {       	
+            event curr = events.poll();            
+            Player player = players.get(curr.getId());        
             current_time = curr.getEntr_time();
        
             //event is training
             if(curr.event_type.equals("t")) {
-            	
-            	
+            	           	
             	//checking if there is available trainer
             	boolean isAvailable=false;
             	int trainer_id=-1;
@@ -226,23 +209,16 @@ public class project2main {
             		}
             	}
             	
-
             	if(!physque.contains(player) && !trainingque.contains(player) && !massageque.contains(player) && !player.inService) {
             		player.training_time = curr.getDuration();
             		player.setEnter_tr_que(current_time);
-            		
-            		
-            		
+			
             		if(!isAvailable) {
-            	
-            			trainingque.add(player);
-            			
+            			trainingque.add(player);	
             		if (trainingque.size()>max_tr_que_len) {
             			max_tr_que_len = trainingque.size();  // max size of tr queue
-            		}
-            		
+            		}	
             	}
-            	
             	else {
             		player.setEnter_tr_service(current_time);
             		trainers.get(trainer_id).setAvailable(false);
@@ -254,14 +230,11 @@ public class project2main {
             	
             		events.add(leave_training);
             		total_t_time+= player.training_time;
-            	
-            	}
+            		}
             	}
             	else {
-        			cancelled_attempts += 1;
-        			
-        		}
-            	
+        		cancelled_attempts += 1;
+		}	
             }
             //event is leave training
             else if(curr.event_type.equals("leave_t")) {
@@ -271,9 +244,7 @@ public class project2main {
             
             	event enter_phys = new event("p", player.getID(), current_time);
             	events.add(enter_phys);
-         
 
-            
             	if (!trainingque.isEmpty()) {  //there are some players in que so put them in service, and create leave event for them.
             		
             		Player temp = trainingque.peek();
@@ -289,25 +260,15 @@ public class project2main {
             
             		events.add(leave_tr);
             		total_t_time+=p1.getTraining_time();
-            		
-
-            	
             	}
-            	
             	else {
             		trainers.get(trainer_id).setAvailable(true);  //no one in the que just go:)
-            	
-            	    player.inService = false;
+			player.inService = false;
             	}
-            	
-            	
             }           
-            
             //event is physiotherapy
             else if(curr.event_type.equals("p")) {
-            	player.setEnter_phys_que(current_time);	
-            	
-            	
+            	player.setEnter_phys_que(current_time);
             	int phys_id= -1;  
                 boolean isPhysAvailable = false;
                 for(int i=0; i<physiotherapists.size(); i++) {
@@ -324,10 +285,7 @@ public class project2main {
            		if (physque.size()>max_phys_que_len) {
         			max_phys_que_len = physque.size();
         		}
-        	 
-             
-            		}
-            		         	
+            	}         	
             	else { //there are some available desks.
             		player.setEnter_phys_service(current_time);
             		physiotherapists.get(phys_id).setAvailable(false);
@@ -336,9 +294,7 @@ public class project2main {
             		player.phys_que_waiting_time+=current_time-player.getEnter_phys_que();
             		event leave_phys = new event("leave_p", player.getID(), current_time + physiotherapists.get(phys_id).getServiceTime());
             		events.add(leave_phys);
-            		
             		total_p_time+= physiotherapists.get(phys_id).getServiceTime();           		
-            	
             	}            		
             }
                 
@@ -348,8 +304,6 @@ public class project2main {
             	total_turnaround_time += current_time - player.getEnter_tr_que();
             
             	int phys_id = player.getPhys_id();
-            	
-            	
             	if(!physque.isEmpty()) {
             		Player temp = physque.peek();
             		physque.poll();
@@ -365,8 +319,8 @@ public class project2main {
                     	}
                     }
 
-            		player.inService=false;
-            		p1.phys_que_waiting_time+=current_time-p1.getEnter_phys_que();
+            	    player.inService=false;
+            	    p1.phys_que_waiting_time+=current_time-p1.getEnter_phys_que();
                     p1.setPhys_id(phys_id);
                     p1.inService=true;
                     
@@ -378,7 +332,6 @@ public class project2main {
                     	max_p_id=p1.getID();
                     }
             	}
-            	
             	else {
             		physiotherapists.get(phys_id).setAvailable(true);
             		
@@ -392,29 +345,25 @@ public class project2main {
             		invalid_attempts+=1;
             		continue;
             	}            	
-            		int mas_id = 0;
-            		boolean isAvailable=false;
-            	    for(int i = 0; i<massagers.size();i++) {
-            	    	if(massagers.get(i).isAvailable() == true) {
-            	    		isAvailable = true;
-            	    		mas_id = i;
-            	    		break;
-            	    	}
+            	int mas_id = 0;
+            	boolean isAvailable=false;
+            	for(int i = 0; i<massagers.size();i++) {
+            	    if(massagers.get(i).isAvailable() == true) {
+            	    	isAvailable = true;
+            	    	mas_id = i;
+            	    	break;
             	    }
-            	    
-            	
-            	    if(!physque.contains(player) && !trainingque.contains(player)  && !massageque.contains(player)&& !player.inService) {
+            	}
+ 	    	if(!physque.contains(player) && !trainingque.contains(player)  && !massageque.contains(player)&& !player.inService) {
             	    	player.setEnter_massage_que(current_time);
             	    	player.num_of_massage_ser+=1;
             	    	player.massage_time = curr.getDuration(); 
-            	    if(isAvailable==false) {
-            	    	
+            	    if(isAvailable==false) 
             	    	massageque.add(player);
             	    	if(massageque.size()>max_mas_que_len) {
             	    		max_mas_que_len = massageque.size();
             	    	}
             	    }
-         	    
             	    else {  
             	    	
             	    	massagers.get(mas_id).setAvailable(false);
@@ -426,11 +375,10 @@ public class project2main {
             	        total_m_time+= player.massage_time;
          
             	    } 
-            	    	}
-            	    else {
-            			cancelled_attempts+=1;	
-            		}
-            	
+            	}
+            	else {
+            		cancelled_attempts+=1;	
+		}	
             }
             //event is leave massage
             else if(curr.getEvent_type().equals("leave_m")) {
@@ -453,15 +401,13 @@ public class project2main {
             		event leave_m = new event("leave_m", p1.getID(), current_time + p1.massage_time);
             		events.add(leave_m);
             		total_m_time+=p1.massage_time;	
-            	}
-    	
+		}
             	else {
-    
             		massagers.get(mas_id).setAvailable(true);
             		player.inService = false;
-            		}
-            	} 
-	    }
+            	}
+            } 
+	}
 
         out.println(max_tr_que_len);
         out.println(max_phys_que_len);
@@ -542,20 +488,17 @@ public class project2main {
         	if(players.get(i).num_of_massage_ser==3) {
         		player_exists= true;
         	}
-
         }
         if (player_exists) {
         	out.println(min_m_id + " " + String.format("%.3f",min_mque_waiting_time)); //12
         	
         }
         else {
-        
         out.println("-1" + " " + "-1");
         } //12
         
         out.println(invalid_attempts); //13
         out.println(cancelled_attempts);  //14
         out.println(String.format("%.3f",current_time));  //15
-
 }
      }
