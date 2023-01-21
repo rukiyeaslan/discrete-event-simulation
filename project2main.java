@@ -6,53 +6,45 @@ import java.util.*;
 //comparator for events
 class comparing implements Comparator<event>{
 	public int compare(event e1, event e2) {
-        
-	 if (Math.abs(e1.entr_time - e2.entr_time) < 0.0000000001 ) {
-		if (e1.getId()< e2.getId()) {
-			return -1;
-		}
-		else if(e1.getId()> e2.getId()) {
-			return 1;
+		 if (Math.abs(e1.entr_time - e2.entr_time) < 0.0000000001 ) {
+			if (e1.getId()< e2.getId()) {
+				return -1;
+			}
+			else if(e1.getId()> e2.getId()) {
+				return 1;
+			}	
+			return 0;
 		}	
-		return 0;
-	}	
-	else if (e1.entr_time < e2.entr_time)
-            return -1;
-        else if (e1.entr_time > e2.entr_time)
-            return 1;
-		 
-        else return 0;
-        
-       
-        
+		else if (e1.entr_time < e2.entr_time)
+		    return -1;
+		else if (e1.entr_time > e2.entr_time)
+		    return 1;
+		else return 0;        
 	}
 }
 //comparator for physiotherapy queue
 class physCompare implements Comparator<Player>{
 	public int compare(Player p1, Player p2) {
-       
-        if(Math.abs(p1.getTraining_time() - p2.getTraining_time()) < 0.0000000001) {
-        	if(Math.abs(p1.getEnter_phys_que() - p2.getEnter_phys_que()) < 0.0000000001) {
-        		if(p1.getID()< p2.getID()) {
-        			return -1;
-        		}
-        		else if(p1.getID()> p2.getID()) {
-        			return 1;        
-        	}
-        	else if (p1.getEnter_phys_que() < p2.getEnter_phys_que()) {
-        		return -1;
-        	}
-        	else if(p1.getEnter_phys_que() > p2.getEnter_phys_que()) {
-        		return 1;
-        	}      	         
-      }
-        else if (p1.getTraining_time() < p2.getTraining_time())
-            return 1;
-        else if (p1.getTraining_time() > p2.getTraining_time())
-            return -1;
-   
-       return 0;
-              
+		if(Math.abs(p1.getTraining_time() - p2.getTraining_time()) < 0.0000000001) {
+			if(Math.abs(p1.getEnter_phys_que() - p2.getEnter_phys_que()) < 0.0000000001) {
+				if(p1.getID()< p2.getID()) {
+					return -1;
+				}
+				else if(p1.getID()> p2.getID()) {
+					return 1;        
+			}
+			else if (p1.getEnter_phys_que() < p2.getEnter_phys_que()) {
+				return -1;
+			}
+			else if(p1.getEnter_phys_que() > p2.getEnter_phys_que()) {
+				return 1;
+			}      	         
+		}
+		else if (p1.getTraining_time() < p2.getTraining_time())
+		    return 1;
+		else if (p1.getTraining_time() > p2.getTraining_time())
+		    return -1;
+	       return 0;   
 	}
 }
 //comparator for massage queue
@@ -133,14 +125,10 @@ public class project2main {
 		double total_p_time=0;     //total physiotherapy time 
 		double total_m_time=0;     //total massage time
 		double total_turnaround_time=0;    //total turnaround time
-		
 		double max_pque_waiting_time =0;
 		int max_p_id=0;
 		double min_mque_waiting_time=0;
 		int min_m_id=0;
-		//taking input
-		
-		// number of players
 		int pNum= in.nextInt();
 		in.nextLine();
 				
@@ -150,7 +138,6 @@ public class project2main {
 			Player player = new Player(Integer.parseInt(list[0]), Integer.parseInt(list[1]));
 			players.add(player);
 		}
-		
 	  	//number of arrivals
 	    	int arrivals =in.nextInt();
 		in.nextLine();
